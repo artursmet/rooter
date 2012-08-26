@@ -2,40 +2,23 @@
 #coding: utf-8
 
 from config import *
-from utils import get_template
+import utils
 
 def add_php_vhost(domain_name, document_root):
-    config = get_template("apache_php.conf")
-    ready_config = config.render(
-                        domain=domain_name,
-                        document_root=document_root
-                    )
-    dest_file_path = "%s/%s.conf" % (APACHE_CONFIG_DIR, domain_name)
-
-    try:
-        dest_file = open(dest_file_path, 'w')
-        dest_file.write(ready_config)
-        dest_file.close()
-    except IOError, exc:
-        logging.error("I/O Error %s" %s)
-        raise
-
-    logging.debug("Config written to file %s" % dest_file_path)
+    utils.new_vhost(config_template="apache_php.conf",
+        params={
+            'domain': domain_name,
+            'document_root': document_root
+        },
+        httpd="apache"
+    )
 
 def enable_vhost(domain_name):
-    enabled_path = "%s/%s.conf" % (APACHE_ENABLED_DIR, domain_name)
-    available_path = "%s/%s.conf" % (APACHE_CONFIG_DIR, domain_name)
-    subprocess.call("ln -s %s %s" % (enabled_path, available_path))
+    utils.enable_vhost(domain_name, httpd="apache")
 
 def disable_vhost(domain_name):
-    logging.debug("Disabling vhost %s" % domain_name)
-    enabled_path = "%s/%s.conf" % (APACHE_ENABLED_DIR, domain_name)
-    result = subprocess.call("rm %s" % enabled_path)
-    logging.debug("Symlink deletion end with code %s" % result)
+    utils.disable_vhost(domain_name, httpd="apache")
 
 def delete_vhost(domain_name):
-    logging.debug("Deleting vhost %s" % domain_name)
-    available_path = "%s/%s.conf" % (APACHE_CONFIG_DIR, domain_name)
-    result = subprocess.call("rm %s" % available_path)
-    logging.debug("Config deletion end with code %s" % result)
+    utils.disable_vhost(domain_name, delete=True, httpd="apache")
 

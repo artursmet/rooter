@@ -24,3 +24,6 @@ NGINX_ENABLED_DIR="/etc/nginx/sites-enabled"
 APACHE_CONFIG_DIR="/etc/apache2/sites-available"
 APACHE_ENABLED_DIR="/etc/apache2/sites-enabled"
 TEMPLATE_DIR="templates"
+
+
+from env import *
