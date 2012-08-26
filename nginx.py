@@ -29,3 +29,14 @@ def enable_vhost(domain_name):
     result = subprocess.call("ln -s %s %s" % (enabled_path, available_path))
     logging.debug("Symlink creation end with code %s" % result)
 
+def disable_vhost(domain_name):
+    logging.debug("Disabling vhost %s" % domain_name)
+    enabled_path = "%s/%s.conf" % (NGINX_ENABLED_DIR, domain_name)
+    result = subprocess.call("rm %s" % enabled_path)
+    logging.debug("Symlink deletion end with code %s" % result)
+
+def delete_vhost(domain_name):
+    logging.debug("Deleting vhost %s" % domain_name)
+    available_path = "%s/%s.conf" % (NGINX_CONFIG_DIR, domain_name)
+    result = subprocess.call("rm %s" % available_path)
+    logging.debug("Config deletion end with code %s" % result)
