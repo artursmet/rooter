@@ -5,7 +5,6 @@ from config import *
 import utils
 import subprocess
 import os
-sites_dir = NGINX_CONFIG_DIR
 
 def new_vhost(config_template, params):
     utils.new_vhost(config_template, params, httpd="nginx")
