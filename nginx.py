@@ -1,9 +1,8 @@
 #!/usr/bin/env python
 #coding: utf-8
 
-from config import *
+import config
 import utils
-import subprocess
 import os
 
 def new_vhost(config_template, params):
@@ -41,3 +40,6 @@ def disable_vhost(domain_name):
 def delete_vhost(domain_name):
     utils.disable_vhost(domain_name, delete=True, httpd="nginx")
 
+def vhost_exists(domain_name):
+    exists = '%s.conf' % domain_name in os.listdir(config.NGINX_ENABLED_DIR)
+    return exists
