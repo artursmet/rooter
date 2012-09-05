@@ -29,5 +29,5 @@ APACHE_CONFIG_DIR="/etc/apache2/sites-available"
 APACHE_ENABLED_DIR="/etc/apache2/sites-enabled"
 TEMPLATE_DIR=rel("templates")
 SUPERVISOR_DIR="/etc/supervisor/conf.d"
-
+APP_DIR="/srv/django/"
 from env import *

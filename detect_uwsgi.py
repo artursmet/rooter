@@ -5,6 +5,7 @@ import nginx
 import supervisord
 import socket
 import logging
+import config
 
 def detect_apps(srv_dir, dry_run=False):
     dirs = os.listdir(srv_dir)
@@ -34,5 +35,7 @@ def detect_apps(srv_dir, dry_run=False):
                 # Enable supervisord for uWSGI process
                 supervisord.new_app(app_name=d, app_dir=app_dir)
                 nginx.enable_vhost(d)
+                logging.info("Added new app: %s" % d)
 
-
+if __name__ == "__main__":
+    detect_apps(config.APP_DIR)
