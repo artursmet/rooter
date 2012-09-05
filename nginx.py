@@ -38,7 +38,8 @@ def add_uwsgi_vhost(domain_name, document_root):
     uWSGI Vhosts wrapper
     """
     if vhost_exists(domain_name):
-        logging.error("VirtualHost %s already exists on nginx" % domain_name)
+        logging.warning("VirtualHost %s already exists on nginx." + \
+                "Skipping" % domain_name)
     else:
         new_vhost(
             config_template="nginx_uwsgi.conf",

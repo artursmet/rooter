@@ -14,7 +14,7 @@ def detect_apps(srv_dir, dry_run=False):
         try:
             ip = socket.gethostbyname(d)
         except socket.gaierror:
-            logging.warning("Wrong directory name: %s." % d)
+            logging.warning("Wrong directory name: %s" % d)
             continue
 
         if "uwsgi.ini" in os.listdir(d):
@@ -23,12 +23,16 @@ def detect_apps(srv_dir, dry_run=False):
             if dry_run:
                 logging.info("uWSGI app found in %s" % d)
             else:
+                app_dir = "%s/%s" % (srv_dir, d)
+                if nginx.vhost_exists(d):
+                    logging.info("Virtualhost %s already exists on nginx" % d)
+                    continue
                 nginx.add_uwsgi_vhost(
                         domain_name=d,
-                        document_root=d
+                        document_root=app_dir
                         )
                 # Enable supervisord for uWSGI process
-                supervisord.new_app(app_name=d, app_dir=d)
+                supervisord.new_app(app_name=d, app_dir=app_dir)
                 nginx.enable_vhost(d)
 
 
