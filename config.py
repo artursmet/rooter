@@ -1,4 +1,5 @@
 import logging
+import os
 
 DEBUG = True
 
@@ -16,6 +17,9 @@ else:
         datefmt='%b %d %Y %H:%M:%S'
     )
 
+def rel(*x):
+    return os.path.join(os.path.abspath(os.path.dirname(__file__)), *x)
+
 
 # Some Constants
 
@@ -23,7 +27,7 @@ NGINX_CONFIG_DIR="/etc/nginx/sites-available"
 NGINX_ENABLED_DIR="/etc/nginx/sites-enabled"
 APACHE_CONFIG_DIR="/etc/apache2/sites-available"
 APACHE_ENABLED_DIR="/etc/apache2/sites-enabled"
-TEMPLATE_DIR="templates"
+TEMPLATE_DIR=rel("templates")
 SUPERVISOR_DIR="/etc/supervisor/conf.d"
 
 from env import *
